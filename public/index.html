@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Studio Sanne · Fotografie</title>
+<meta name="description" content="Studio Sanne: de foto's van Sanne. Natuur, dieren en momenten van onderweg." />
+<meta property="og:title" content="Studio Sanne · Fotografie" />
+<meta property="og:description" content="De foto's van Sanne: natuur, dieren en momenten van onderweg." />
+<meta property="og:image" content="/img/og.jpg" />
+<link rel="icon" type="image/png" href="/img/favicon.png" />
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#fdf7f4;
+    --cream-2:#fbeee9;
+    --blush:#e79ab4;
+    --blush-dark:#d67f9e;
+    --rose:#f6dde6;
+    --sage:#a9c3ce;
+    --sage-soft:#dce8ec;
+    --ink:#4a4145;
+    --ink-soft:#7c7176;
+    --white:#ffffff;
+    --shadow:0 14px 40px -18px rgba(120,80,95,.45);
+    --shadow-sm:0 6px 20px -10px rgba(120,80,95,.4);
+    --radius:22px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;overflow-x:clip}
+  body{overflow-x:clip}
+  body{
+    font-family:'Quicksand',system-ui,-apple-system,sans-serif;
+    color:var(--ink);
+    background:var(--cream);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{line-height:1.15;font-weight:700}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+  .script{font-family:'Pacifico',cursive;font-weight:400}
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(253,247,244,.82);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(214,127,158,.14);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:70px}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+  .brand .mark{
+    width:44px;height:44px;border-radius:50%;
+    background:linear-gradient(140deg,var(--rose),var(--sage-soft));
+    display:grid;place-items:center;box-shadow:var(--shadow-sm);
+    overflow:hidden;flex:0 0 auto;
+  }
+  .brand .mark img{width:100%;height:100%;object-fit:cover}
+  .brand .mark svg{width:24px;height:24px}
+  .brand span{font-family:'Pacifico',cursive;font-size:1.4rem;color:var(--ink)}
+  nav ul{list-style:none;display:flex;gap:26px;align-items:center}
+  nav a{text-decoration:none;font-weight:600;color:var(--ink-soft);font-size:.98rem;transition:color .2s}
+  nav a:hover{color:var(--blush-dark)}
+  .nav-cta{
+    background:var(--blush);color:#fff !important;padding:9px 18px;border-radius:999px;
+    box-shadow:var(--shadow-sm);transition:transform .2s,background .2s;
+  }
+  .nav-cta:hover{background:var(--blush-dark);transform:translateY(-1px)}
+  .burger{display:none;background:none;border:0;cursor:pointer;padding:8px}
+  .burger span{display:block;width:24px;height:2.5px;background:var(--ink);border-radius:2px;margin:4px 0;transition:.25s}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;overflow:hidden;padding:64px 0 74px}
+  .hero::before{
+    content:"";position:absolute;inset:0;z-index:-1;
+    background:
+      radial-gradient(60% 55% at 82% 10%,var(--rose) 0%,transparent 60%),
+      radial-gradient(55% 55% at 8% 90%,var(--sage-soft) 0%,transparent 55%),
+      var(--cream);
+  }
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+  .hero .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--white);color:var(--blush-dark);font-weight:700;
+    padding:7px 15px;border-radius:999px;font-size:.82rem;letter-spacing:.04em;
+    box-shadow:var(--shadow-sm);text-transform:uppercase;
+  }
+  .hero h1{font-size:clamp(2.4rem,5vw,3.7rem);margin:20px 0 6px;color:var(--ink)}
+  .hero h1 .script{color:var(--blush-dark);display:block;font-size:1.18em;line-height:1.1}
+  .hero p.lead{font-size:1.12rem;color:var(--ink-soft);max-width:44ch;margin-top:14px}
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;cursor:pointer;border:0;
+    font-family:inherit;font-weight:700;font-size:1rem;padding:13px 24px;border-radius:999px;
+    text-decoration:none;transition:transform .2s,box-shadow .2s,background .2s;
+  }
+  .btn-primary{background:var(--blush);color:#fff;box-shadow:var(--shadow)}
+  .btn-primary:hover{background:var(--blush-dark);transform:translateY(-2px)}
+  .btn-ghost{background:var(--white);color:var(--ink);box-shadow:var(--shadow-sm)}
+  .btn-ghost:hover{transform:translateY(-2px)}
+
+  .hero-photo{position:relative;justify-self:center}
+  .hero-photo .frame{
+    background:var(--white);border-radius:30px;padding:16px;box-shadow:var(--shadow);
+    transform:rotate(2.5deg);transition:transform .4s;max-width:330px;
+  }
+  .hero-photo .frame:hover{transform:rotate(0deg)}
+  .hero-photo .frame img{border-radius:18px;width:100%}
+  .hero-photo .frame .logo-fallback{
+    aspect-ratio:1/1;border-radius:18px;display:grid;place-items:center;text-align:center;
+    background:linear-gradient(150deg,var(--rose),var(--sage-soft));color:var(--ink);padding:26px;
+  }
+  .hero-photo .frame .logo-fallback .script{font-size:2.4rem;color:var(--blush-dark)}
+  .hero-photo .frame .logo-fallback svg{width:64px;height:64px;margin-bottom:10px;opacity:.85}
+  .hero-photo .cap{
+    position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);
+    background:var(--white);color:var(--ink-soft);font-weight:600;font-size:.86rem;
+    padding:8px 18px;border-radius:999px;box-shadow:var(--shadow-sm);white-space:nowrap;
+  }
+
+  /* ---------- SECTION HEADINGS ---------- */
+  section{padding:72px 0}
+  .sec-head{text-align:center;max-width:620px;margin:0 auto 44px}
+  .sec-head .kicker{color:var(--blush-dark);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:.82rem}
+  .sec-head h2{font-size:clamp(1.9rem,3.6vw,2.6rem);margin:10px 0 12px}
+  .sec-head h2 .script{color:var(--blush-dark)}
+  .sec-head p{color:var(--ink-soft);font-size:1.05rem}
+
+  /* ---------- GALLERY ---------- */
+  #galerij{background:var(--cream-2)}
+  .filters{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:34px}
+  .filter{
+    border:0;cursor:pointer;font-family:inherit;font-weight:600;font-size:.95rem;
+    padding:9px 20px;border-radius:999px;background:var(--white);color:var(--ink-soft);
+    box-shadow:var(--shadow-sm);transition:.2s;
+  }
+  .filter:hover{color:var(--blush-dark)}
+  .filter.active{background:var(--blush);color:#fff}
+  .grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+  }
+  .card{
+    position:relative;border-radius:var(--radius);overflow:hidden;background:var(--white);
+    box-shadow:var(--shadow-sm);cursor:pointer;aspect-ratio:4/3;
+    transition:transform .3s,box-shadow .3s;
+  }
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .card img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+  .card:hover img{transform:scale(1.05)}
+  .card .ph{
+    width:100%;height:100%;display:grid;place-items:center;text-align:center;color:#fff;
+    padding:16px;font-weight:600;
+  }
+  .card .ph svg{width:40px;height:40px;opacity:.9;margin-bottom:8px}
+  .card .overlay{
+    position:absolute;inset:0;display:flex;align-items:flex-end;
+    background:linear-gradient(to top,rgba(74,65,69,.72),transparent 55%);
+    opacity:0;transition:opacity .3s;
+  }
+  .card:hover .overlay{opacity:1}
+  .card .overlay span{color:#fff;font-weight:600;padding:16px;font-size:.98rem}
+  .card .tag{
+    position:absolute;top:12px;left:12px;background:rgba(255,255,255,.92);
+    color:var(--blush-dark);font-weight:700;font-size:.72rem;padding:5px 11px;border-radius:999px;
+    text-transform:uppercase;letter-spacing:.03em;
+  }
+  .card figcaption{display:none}
+  .grid-loading{grid-column:1/-1;text-align:center;color:var(--ink-soft)}
+  .lb-cap{max-width:70ch;margin-left:auto;margin-right:auto;white-space:pre-line}
+  .lb-cat{display:inline-block;background:rgba(255,255,255,.18);color:#fff;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:4px 11px;border-radius:999px;margin-top:12px}
+  [hidden]{display:none !important}
+  .empty-note{text-align:center;color:var(--ink-soft);margin-top:24px;grid-column:1/-1}
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:52px;align-items:center}
+  .about-photo{
+    background:var(--white);padding:14px;border-radius:28px;box-shadow:var(--shadow);
+    transform:rotate(-2deg);
+  }
+  .about-photo .logo-fallback{
+    aspect-ratio:4/5;border-radius:18px;display:grid;place-items:center;text-align:center;
+    background:linear-gradient(150deg,var(--sage-soft),var(--rose));padding:24px;
+  }
+  .about-photo .logo-fallback .script{font-size:2rem;color:var(--blush-dark)}
+  .about-photo .logo-fallback svg{width:56px;height:56px;opacity:.8;margin-bottom:8px}
+  .about-photo img{border-radius:18px;width:100%;aspect-ratio:1/1;object-fit:cover}
+  .about-text h2{font-size:clamp(1.8rem,3.4vw,2.5rem);margin-bottom:16px}
+  .about-text h2 .script{color:var(--blush-dark)}
+  .about-text p{color:var(--ink-soft);font-size:1.06rem;margin-bottom:14px}
+  .badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .badge{background:var(--rose);color:var(--blush-dark);font-weight:600;padding:8px 16px;border-radius:999px;font-size:.9rem}
+
+  /* ---------- CONTACT ---------- */
+  #contact{background:var(--cream-2)}
+  .contact-card{
+    background:var(--white);border-radius:30px;box-shadow:var(--shadow);
+    padding:clamp(28px,5vw,54px);text-align:center;max-width:640px;margin:0 auto;
+  }
+  .contact-card h2{font-size:clamp(1.8rem,3.4vw,2.4rem);margin-bottom:12px}
+  .contact-card h2 .script{color:var(--blush-dark)}
+  .contact-card p{color:var(--ink-soft);margin-bottom:26px;font-size:1.05rem}
+  .contact-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .socials{display:flex;gap:14px;justify-content:center;margin-top:28px}
+  .socials a{
+    width:46px;height:46px;border-radius:50%;background:var(--rose);display:grid;place-items:center;
+    color:var(--blush-dark);transition:.2s;text-decoration:none;
+  }
+  .socials a:hover{background:var(--blush);color:#fff;transform:translateY(-2px)}
+  .socials svg{width:22px;height:22px}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:38px 0;text-align:center;color:var(--ink-soft);font-size:.92rem}
+  footer .script{font-size:1.3rem;color:var(--blush-dark);display:block;margin-bottom:6px}
+
+  /* ---------- LIGHTBOX ---------- */
+  .lb{
+    position:fixed;inset:0;z-index:100;background:rgba(52,44,48,.86);
+    display:none;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(4px);
+  }
+  .lb.open{display:flex}
+  .lb-inner{max-width:min(92vw,1000px);max-height:88vh;position:relative;text-align:center}
+  .lb-inner img{max-width:100%;max-height:80vh;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .lb-ph{width:min(80vw,640px);aspect-ratio:4/3;border-radius:14px;display:grid;place-items:center;color:#fff;font-weight:600}
+  .lb-ph svg{width:56px;height:56px;opacity:.9;margin-bottom:10px}
+  .lb-cap{color:#fff;margin-top:14px;font-weight:600;font-size:1.05rem}
+  .lb-btn{
+    position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.16);
+    border:0;color:#fff;width:48px;height:48px;border-radius:50%;cursor:pointer;font-size:1.5rem;
+    display:grid;place-items:center;transition:.2s;
+  }
+  .lb-btn:hover{background:rgba(255,255,255,.32)}
+  .lb-prev{left:20px}.lb-next{right:20px}
+  .lb.single .lb-btn{display:none}
+  .lb-close{position:fixed;top:22px;right:26px;background:rgba(255,255,255,.16);border:0;color:#fff;
+    width:46px;height:46px;border-radius:50%;font-size:1.4rem;cursor:pointer;display:grid;place-items:center}
+  .lb-close:hover{background:rgba(255,255,255,.32)}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr;text-align:center}
+    .hero .eyebrow{margin:0 auto}
+    .hero p.lead{margin-left:auto;margin-right:auto}
+    .hero-actions{justify-content:center}
+    .hero-photo{margin-top:34px}
+    .about-grid{grid-template-columns:1fr;gap:34px}
+    .about-photo{max-width:340px;margin:0 auto;order:-1}
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .lb-prev{left:6px}.lb-next{right:6px}
+    .lb-btn{top:auto;bottom:18px;transform:none}
+  }
+  @media (max-width:640px){
+    nav ul{
+      position:fixed;top:70px;right:0;flex-direction:column;background:var(--white);
+      width:230px;padding:22px;gap:18px;box-shadow:var(--shadow);border-radius:0 0 0 20px;
+      transform:translateX(110%);transition:transform .3s,visibility .3s;height:auto;visibility:hidden;
+    }
+    nav ul.show{transform:translateX(0);visibility:visible}
+    .hero-photo .frame{max-width:260px}
+    .burger{display:block}
+    .grid{grid-template-columns:1fr 1fr;gap:12px}
+  }
+  @media (max-width:420px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand">
+      <span class="mark">
+        <img src="/img/portret-rond.jpg" alt="">
+      </span>
+      <span>Studio Sanne</span>
+    </a>
+    <nav>
+      <ul id="menu">
+        <li><a href="#galerij" onclick="closeMenu()">Galerij</a></li>
+        <li><a href="#over" onclick="closeMenu()">Over Sanne</a></li>
+        <li id="navContact"><a href="#contact" class="nav-cta" onclick="closeMenu()">Contact</a></li>
+      </ul>
+      <button class="burger" aria-label="Menu" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<div id="top"></div>
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">📸 Fotografie door Sanne</span>
+      <h1>Welkom bij <span class="script">Studio Sanne</span></h1>
+      <p class="lead">Ik ben Sanne en ik maak graag foto's: van dieren en de natuur tot kleine momentjes die ik onderweg tegenkom. Hier verzamel ik mijn mooiste plaatjes.</p>
+      <div class="hero-actions">
+        <a href="#galerij" class="btn btn-primary">Bekijk mijn foto's
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#over" class="btn btn-ghost">Over mij</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <div class="frame">
+        <img src="/img/logo-staand.jpg" alt="Studio Sanne logo" width="900" height="1083" onerror="this.outerHTML='&lt;div class=\'logo-fallback\'&gt;&lt;svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'#d67f9e\' stroke-width=\'1.6\'&gt;&lt;path d=\'M4 8h3l1.5-2h7L17 8h3v11H4z\'/&gt;&lt;circle cx=\'12\' cy=\'13\' r=\'3.5\'/&gt;&lt;/svg&gt;&lt;div class=\'script\'&gt;Studio Sanne&lt;/div&gt;&lt;/div&gt;'">
+      </div>
+      <div class="cap">Klaar voor het mooiste plaatje ✨</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section id="galerij">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Mijn werk</div>
+      <h2>De <span class="script">galerij</span></h2>
+      <p>Klik op een foto om hem groter te bekijken. Kies hieronder een categorie.</p>
+    </div>
+    <div class="filters" id="filters"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="over">
+  <div class="wrap about-grid">
+    <div class="about-photo">
+      <img src="/img/portret-rond.jpg" alt="Sanne" onerror="this.outerHTML='&lt;div class=\'logo-fallback\'&gt;&lt;svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'#d67f9e\' stroke-width=\'1.6\'&gt;&lt;path d=\'M4 8h3l1.5-2h7L17 8h3v11H4z\'/&gt;&lt;circle cx=\'12\' cy=\'13\' r=\'3.5\'/&gt;&lt;/svg&gt;&lt;div class=\'script\'&gt;Sanne&lt;/div&gt;&lt;/div&gt;'">
+    </div>
+    <div class="about-text">
+      <h2>Hoi, ik ben <span class="script">Sanne</span></h2>
+      <div id="aboutText"></div>
+      <div class="badges">
+        <span class="badge">🌿 Natuur & dieren</span>
+        <span class="badge">🚲 Onderweg</span>
+        <span class="badge">📷 Altijd op zoek naar het mooiste plaatje</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" hidden>
+  <div class="wrap">
+    <div class="contact-card">
+      <div class="kicker" style="color:var(--blush-dark);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:.82rem">Contact</div>
+      <h2>Zin om iets te <span class="script">vragen?</span></h2>
+      <p>Vind je een foto leuk of heb je een vraag? Stuur gerust een berichtje!</p>
+      <div class="contact-actions">
+        <a href="#" id="mailBtn" class="btn btn-primary" hidden>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          Stuur een e-mail
+        </a>
+      </div>
+      <div class="socials" id="socials" hidden>
+        <a href="#" id="igBtn" aria-label="Instagram" title="Instagram" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <span class="script">Studio Sanne</span>
+    <div>© <span id="year"></span> Studio Sanne · Met veel plezier gemaakt 💛</div>
+  </div>
+</footer>
+
+<!-- ============ LIGHTBOX ============ -->
+<div class="lb" id="lb" onclick="if(event.target===this)closeLb()">
+  <button class="lb-close" onclick="closeLb()" aria-label="Sluiten">✕</button>
+  <button class="lb-btn lb-prev" onclick="navLb(-1)" aria-label="Vorige">‹</button>
+  <div class="lb-inner" id="lbInner"></div>
+  <button class="lb-btn lb-next" onclick="navLb(1)" aria-label="Volgende">›</button>
+</div>
+
+<script>
+/* Studio Sanne: de foto's en teksten komen uit de beheeromgeving (/beheer). */
+const CAM = `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.2"/></svg>`;
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+let SITE = { categories: [], photos: [], settings: {} };
+let current = [];
+let lbIndex = 0;
+
+function renderFilters(){
+  const f = document.getElementById('filters');
+  const used = SITE.categories.filter(c => SITE.photos.some(p => p.category === c));
+  if (used.length < 2) { f.innerHTML = ''; return; }
+  f.innerHTML = ['Alle', ...used].map((c,i)=>
+    `<button class="filter${i===0?' active':''}" data-cat="${esc(c)}">${esc(c)}</button>`).join('');
+  f.querySelectorAll('.filter').forEach(b => b.addEventListener('click', () => {
+    f.querySelectorAll('.filter').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    const cat = b.dataset.cat;
+    renderGrid(cat === 'Alle' ? SITE.photos : SITE.photos.filter(p => p.category === cat));
+  }));
+}
+
+function renderGrid(list){
+  current = list;
+  const g = document.getElementById('grid');
+  if(!list.length){
+    g.innerHTML = `<p class="empty-note">Hier komen binnenkort mijn foto's te staan. 📷</p>`;
+    return;
+  }
+  g.innerHTML = list.map((p,i)=>`
+    <figure class="card" tabindex="0" data-i="${i}" aria-label="${esc(p.description || p.category)}">
+      <span class="tag">${esc(p.category)}</span>
+      <img src="${esc(p.thumb)}" alt="${esc(p.description || 'Foto van Sanne')}" loading="lazy" decoding="async">
+      ${p.description ? `<div class="overlay"><span>${esc(p.description)}</span></div>` : ''}
+    </figure>`).join('');
+  g.querySelectorAll('.card').forEach(c => {
+    c.addEventListener('click', () => openLb(+c.dataset.i));
+    c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLb(+c.dataset.i); } });
+  });
+}
+
+function renderTexts(){
+  const s = SITE.settings || {};
+  const about = document.getElementById('aboutText');
+  about.innerHTML = String(s.aboutText || '').split(/\n\s*\n/).filter(Boolean)
+    .map(par => `<p>${esc(par).replace(/\n/g,'<br>')}</p>`).join('');
+  const mail = document.getElementById('mailBtn');
+  const ig = document.getElementById('igBtn');
+  const hasMail = !!s.email, hasIg = !!s.instagram;
+  if (hasMail) { mail.href = 'mailto:' + s.email; mail.hidden = false; }
+  if (hasIg) { ig.href = s.instagram; document.getElementById('socials').hidden = false; }
+  const showContact = hasMail || hasIg;
+  document.getElementById('contact').hidden = !showContact;
+  document.getElementById('navContact').hidden = !showContact;
+}
+
+/* ---------- lightbox ---------- */
+function openLb(i){
+  lbIndex = i; showLb();
+  document.getElementById('lb').classList.toggle('single', current.length < 2);
+  document.getElementById('lb').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function showLb(){
+  const p = current[lbIndex];
+  document.getElementById('lbInner').innerHTML =
+    `<img src="${esc(p.src)}" alt="${esc(p.description || 'Foto van Sanne')}">` +
+    `<div class="lb-cat">${esc(p.category)}</div>` +
+    (p.description ? `<div class="lb-cap">${esc(p.description)}</div>` : '');
+}
+function navLb(d){ lbIndex = (lbIndex + d + current.length) % current.length; showLb(); }
+function closeLb(){
+  document.getElementById('lb').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('lb').classList.contains('open'))return;
+  if(e.key==='Escape')closeLb();
+  if(e.key==='ArrowLeft')navLb(-1);
+  if(e.key==='ArrowRight')navLb(1);
+});
+/* vegen op telefoon */
+(() => {
+  let x0 = null;
+  const lb = document.getElementById('lb');
+  lb.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, {passive:true});
+  lb.addEventListener('touchend', e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 50) navLb(dx < 0 ? 1 : -1);
+  });
+})();
+
+/* ---------- menu ---------- */
+function toggleMenu(){document.getElementById('menu').classList.toggle('show')}
+function closeMenu(){document.getElementById('menu').classList.remove('show')}
+
+/* ---------- init ---------- */
+document.getElementById('year').textContent = new Date().getFullYear();
+document.getElementById('grid').innerHTML = `<p class="grid-loading">Foto's laden…</p>`;
+fetch('/api/site').then(r => r.json()).then(data => {
+  SITE = data;
+  renderFilters();
+  renderGrid(SITE.photos);
+  renderTexts();
+}).catch(() => {
+  document.getElementById('grid').innerHTML = `<p class="empty-note">De foto's konden even niet geladen worden. Probeer het later nog eens.</p>`;
+});
+</script>
+
+</body>
+</html>

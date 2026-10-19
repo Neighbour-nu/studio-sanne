@@ -1,0 +1,8 @@
+node_modules/
+data/
+backups/
+caddy-data/
+.env
+.env.tmp
+docker-compose.override.yml
+Caddyfile

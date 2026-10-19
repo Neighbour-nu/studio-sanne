@@ -1,0 +1,12 @@
+services:
+  studio-sanne:
+    build: .
+    image: studio-sanne:latest
+    container_name: studio-sanne
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./data:/data
+    # Alleen bereikbaar vanaf de server zelf; de reverse proxy stuurt het verkeer door.
+    ports:
+      - "127.0.0.1:${STUDIO_POORT:-8090}:3000"
