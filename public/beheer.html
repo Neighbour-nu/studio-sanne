@@ -7,6 +7,8 @@
 <title>Beheer · Studio Sanne</title>
 <link rel="icon" type="image/png" href="/img/favicon.png" />
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="Studio Sanne" />
+<meta name="theme-color" content="#fdf7f4" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -76,7 +78,7 @@
   .drop b{display:block;font-size:1.15rem;margin:6px 0 2px}
   .drop span{color:var(--ink-soft)}
   .queue{display:grid;gap:14px;margin-top:18px}
-  .qitem{display:grid;grid-template-columns:110px 1fr;gap:14px;background:var(--white);border-radius:20px;padding:12px;box-shadow:var(--shadow-sm);align-items:start}
+  .qitem{scroll-margin-top:84px;display:grid;grid-template-columns:110px 1fr;gap:14px;background:var(--white);border-radius:20px;padding:12px;box-shadow:var(--shadow-sm);align-items:start}
   .qitem img{width:110px;height:110px;object-fit:cover;border-radius:14px;background:var(--cream-2)}
   .qitem .fields{display:grid;gap:8px}
   .qitem .row{display:flex;gap:8px;align-items:center;justify-content:space-between}
@@ -94,7 +96,8 @@
   .plist{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
   .pcard{background:var(--white);border-radius:20px;box-shadow:var(--shadow-sm);overflow:hidden;display:flex;flex-direction:column}
   .pcard .thumb{aspect-ratio:4/3;background:var(--cream-2);position:relative}
-  .pcard .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .pcard .thumb{overflow:hidden}
+  .pcard .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
   .pcard .pos{position:absolute;top:10px;left:10px;background:rgba(255,255,255,.92);border-radius:999px;font-weight:700;font-size:.78rem;padding:3px 10px}
   .pcard .body{padding:12px;display:grid;gap:8px}
   .pcard .acts{display:flex;justify-content:space-between;align-items:center;gap:6px}
@@ -115,11 +118,31 @@
   .toast.show{transform:translateX(-50%) translateY(0)}
   .toast.err{background:var(--danger)}
 
+  @media (hover:none){ .drop .no-touch{display:none} }
+  @media (max-width:640px){
+    /* tabbladen als 2 x 2 knoppen, zodat alles zichtbaar is */
+    .tabs{display:grid;grid-template-columns:1fr 1fr;overflow:visible}
+    .tab{padding:11px 6px;text-align:center;min-width:0;white-space:normal;font-size:.92rem}
+    /* melding bovenin, zodat hij de knop Uploaden niet bedekt */
+    .toast{top:74px;bottom:auto;transform:translateX(-50%) translateY(-20px);opacity:0;visibility:hidden;transition:opacity .2s,transform .2s,visibility .2s}
+    .toast.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
+    /* categorie: naam over de hele breedte, knoppen eronder */
+    .citem{flex-wrap:wrap}
+    .citem input{flex:1 1 100%}
+    .citem .count{flex:1}
+    /* Mijn foto's: lagere foto, zodat je minder hoeft te scrollen */
+    .plist{grid-template-columns:1fr}
+    .pcard .thumb{aspect-ratio:16/9}
+    .drop{padding:26px 16px}
+  }
   @media (max-width:520px){
-    .qitem{grid-template-columns:84px 1fr}
-    .qitem img{width:84px;height:84px}
+    .qitem{grid-template-columns:76px 1fr;gap:12px;padding:10px}
+    .qitem img{width:76px;height:76px}
     .brand small{display:none}
-    .top-actions .btn-ghost.site{display:none}
+    .top-actions .btn{padding:7px 12px}
+  }
+  @media (max-width:360px){
+    .brand b{display:none}
   }
 </style>
 </head>
@@ -132,7 +155,7 @@
       <div><b>Studio Sanne</b><small>Beheer</small></div>
     </a>
     <div class="top-actions" id="topActions" hidden>
-      <a class="btn btn-ghost btn-small site" href="/" target="_blank" rel="noopener">Bekijk site ↗</a>
+      <a class="btn btn-ghost btn-small site" href="/" target="_blank" rel="noopener">Site ↗</a>
       <button class="btn btn-ghost btn-small" id="logoutBtn">Uitloggen</button>
     </div>
   </div>
@@ -173,7 +196,7 @@
       <label class="drop" id="drop">
         <div class="big">📷</div>
         <b>Tik hier om foto's te kiezen</b>
-        <span>of sleep ze in dit vak</span>
+        <span class="no-touch">of sleep ze in dit vak</span>
         <input type="file" id="fileInput" accept="image/*" multiple hidden>
       </label>
       <div class="apply-all" id="applyAll" hidden>
@@ -291,6 +314,7 @@ $('fileInput').addEventListener('change', e => { addFiles(e.target.files); e.tar
 drop.addEventListener('drop', e => addFiles(e.dataTransfer.files));
 
 function addFiles(files){
+  const before = queue.length;
   [...files].forEach(file => {
     if (!file.type.startsWith('image/') && !/\.(jpe?g|png|webp|heic|heif|gif|tiff?)$/i.test(file.name)) {
       toast(`${file.name} is geen foto.`, true); return;
@@ -313,6 +337,9 @@ function addFiles(files){
     $('queue').appendChild(el);
   });
   updateUploadUi();
+  // Op de telefoon meteen naar de gekozen foto's schuiven, zodat Sanne de categorie kan kiezen.
+  const first = queue[before];
+  if (first) setTimeout(() => first.el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
 }
 function removeFromQueue(item){
   URL.revokeObjectURL(item.url); item.el.remove();
@@ -336,12 +363,32 @@ $('applyAllBtn').addEventListener('click', () => {
 });
 $('clearBtn').addEventListener('click', () => { [...queue].forEach(removeFromQueue); });
 
-function uploadOne(item){
+// Grote foto's eerst in de telefoon verkleinen (max. 2400 px). Dat scheelt veel
+// mobiele data en tijd. Lukt het niet, dan gaat het originele bestand mee.
+async function shrink(file){
+  try {
+    if (file.size < 2.5 * 1024 * 1024 || !/^image\/(jpeg|png|webp)$/.test(file.type) || !window.createImageBitmap) return file;
+    const bmp = await createImageBitmap(file, { imageOrientation: 'from-image' });
+    const scale = Math.min(1, 2400 / Math.max(bmp.width, bmp.height));
+    const w = Math.round(bmp.width * scale), h = Math.round(bmp.height * scale);
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    c.getContext('2d').drawImage(bmp, 0, 0, w, h);
+    if (bmp.close) bmp.close();
+    const blob = await new Promise(r => c.toBlob(r, 'image/jpeg', 0.92));
+    if (!blob || blob.size >= file.size) return file;
+    return new File([blob], file.name.replace(/\.\w+$/, '') + '.jpg', { type: 'image/jpeg' });
+  } catch (_) { return file; }
+}
+async function uploadOne(item){
+  const st = item.el.querySelector('.qstatus');
+  st.textContent = 'Voorbereiden…';
+  const toSend = await shrink(item.file);
+  st.textContent = 'Bezig met uploaden…';
   return new Promise((resolve, reject) => {
     const fd = new FormData();
     fd.append('category', item.el.querySelector('.qcat').value);
     fd.append('description', item.el.querySelector('.qdesc').value);
-    fd.append('foto', item.file);
+    fd.append('foto', toSend);
     const xhr = new XMLHttpRequest();
     xhr.open('POST', '/api/photos');
     xhr.setRequestHeader('X-Studio-Sanne', '1');
