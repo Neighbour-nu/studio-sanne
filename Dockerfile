@@ -4,6 +4,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev && npm cache clean --force
 COPY server.js docker-entrypoint.sh ./
+COPY assets ./assets
 COPY public ./public
 RUN chmod +x docker-entrypoint.sh && mkdir -p /data && chown node:node /data
 EXPOSE 3000
