@@ -141,6 +141,20 @@
   }
   .filter:hover{color:var(--blush-dark)}
   .filter.active{background:var(--blush);color:#fff}
+  .filter{display:inline-flex;align-items:center;gap:8px}
+  .filter .check{width:18px;height:18px;border-radius:50%;border:2px solid var(--rose);display:grid;place-items:center;flex:0 0 auto;transition:.2s}
+  .filter .check svg{width:11px;height:11px;opacity:0;transition:.2s}
+  .filter.active .check{border-color:#fff;background:rgba(255,255,255,.25)}
+  .filter.active .check svg{opacity:1}
+  .filter .n{font-size:.78rem;font-weight:700;background:var(--cream-2);color:var(--ink-soft);border-radius:999px;padding:1px 8px;min-width:24px;text-align:center}
+  .filter.active .n{background:rgba(255,255,255,.28);color:#fff}
+  .filter:focus-visible{outline:3px solid var(--sage);outline-offset:2px}
+  .filter-hint{text-align:center;color:var(--ink-soft);font-size:.88rem;margin:-20px 0 26px}
+  @media (max-width:640px){
+    .filters{gap:8px}
+    .filter{padding:8px 14px;font-size:.9rem;white-space:nowrap}
+    .filter-hint{margin-top:-18px}
+  }
   .grid{
     display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
   }
@@ -319,9 +333,10 @@
     <div class="sec-head">
       <div class="kicker">Mijn werk</div>
       <h2>De <span class="script">galerij</span></h2>
-      <p>Klik op een foto om hem groter te bekijken. Kies hieronder een categorie.</p>
+      <p>Klik op een foto om hem groter te bekijken.</p>
     </div>
-    <div class="filters" id="filters"></div>
+    <div class="filters" id="filters" role="group" aria-label="Kies categorieën"></div>
+    <p class="filter-hint" id="filterHint" hidden>Kies één of meer categorieën. Met <b>Alle</b> zie je weer alles.</p>
     <div class="grid" id="grid"></div>
   </div>
 </section>
@@ -391,18 +406,55 @@ let SITE = { categories: [], photos: [], settings: {} };
 let current = [];
 let lbIndex = 0;
 
+/* ---------- keuzeschakelaar categorieën ----------
+   'Alle' toont alles. Tik je op een categorie, dan zie je alleen die.
+   Je kunt meerdere categorieën tegelijk aanzetten. De keuze staat ook in de
+   link (bijv. ?categorie=Onderweg), zodat je een gefilterde galerij kunt delen. */
+const CHECK = `<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2.5 6.3 5 8.6l4.5-5"/></svg>`;
+let selected = new Set();
+
+function readUrlSelection(used){
+  const q = new URLSearchParams(location.search).getAll('categorie');
+  selected = new Set(q.filter(c => used.includes(c)));
+}
+function writeUrlSelection(){
+  const u = new URL(location.href);
+  u.searchParams.delete('categorie');
+  selected.forEach(c => u.searchParams.append('categorie', c));
+  history.replaceState(null, '', u.pathname + u.search + u.hash);
+}
+function applyFilter(){
+  const f = document.getElementById('filters');
+  f.querySelectorAll('.filter').forEach(b => {
+    const on = b.dataset.cat === '' ? selected.size === 0 : selected.has(b.dataset.cat);
+    b.classList.toggle('active', on);
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+  renderGrid(selected.size ? SITE.photos.filter(p => selected.has(p.category)) : SITE.photos);
+}
 function renderFilters(){
   const f = document.getElementById('filters');
   const used = SITE.categories.filter(c => SITE.photos.some(p => p.category === c));
-  if (used.length < 2) { f.innerHTML = ''; return; }
-  f.innerHTML = ['Alle', ...used].map((c,i)=>
-    `<button class="filter${i===0?' active':''}" data-cat="${esc(c)}">${esc(c)}</button>`).join('');
+  const hint = document.getElementById('filterHint');
+  if (!used.length) { f.innerHTML = ''; hint.hidden = true; return; }
+  readUrlSelection(used);
+  const count = c => SITE.photos.filter(p => p.category === c).length;
+  const btn = (value, label, n) =>
+    `<button type="button" class="filter" data-cat="${esc(value)}" aria-pressed="false">` +
+    (value ? `<span class="check">${CHECK}</span>` : '') +
+    `<span>${esc(label)}</span><span class="n">${n}</span></button>`;
+  f.innerHTML = btn('', 'Alle', SITE.photos.length) + used.map(c => btn(c, c, count(c))).join('');
+  hint.hidden = used.length < 2;
   f.querySelectorAll('.filter').forEach(b => b.addEventListener('click', () => {
-    f.querySelectorAll('.filter').forEach(x => x.classList.remove('active'));
-    b.classList.add('active');
-    const cat = b.dataset.cat;
-    renderGrid(cat === 'Alle' ? SITE.photos : SITE.photos.filter(p => p.category === cat));
+    const c = b.dataset.cat;
+    if (c === '') selected.clear();
+    else if (selected.has(c)) selected.delete(c);
+    else selected.add(c);
+    if (selected.size === used.length) selected.clear(); // alles aan = Alle
+    writeUrlSelection();
+    applyFilter();
   }));
+  applyFilter();
 }
 
 function renderGrid(list){
@@ -486,7 +538,7 @@ document.getElementById('grid').innerHTML = `<p class="grid-loading">Foto's lade
 fetch('/api/site').then(r => r.json()).then(data => {
   SITE = data;
   renderFilters();
-  renderGrid(SITE.photos);
+  if (!document.querySelector('#filters .filter')) renderGrid(SITE.photos);
   renderTexts();
 }).catch(() => {
   document.getElementById('grid').innerHTML = `<p class="empty-note">De foto's konden even niet geladen worden. Probeer het later nog eens.</p>`;
